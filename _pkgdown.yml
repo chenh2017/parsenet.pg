@@ -1,0 +1,27 @@
+template:
+  params:
+    bootswatch: cosmo
+navbar:
+  title: "parsenet.pg"
+  type: inverse
+  left:
+    - icon: "fa-home"
+      href: index.html  
+    - text: "Get started"
+      href: articles/main.html
+    - text: "Reference"
+      href: reference/index.html
+  right:
+    - text: "CELEHS Software"
+      href: https://celehs.github.io
+
+reference:
+- title: "Run App"
+  desc: "Function for running a shiny app of network."
+  contents: 
+  - run_app
+- title: "Writing Datas to DB"
+  desc: "Function for writing data into a postgresql database."
+  contents:
+  - data2db
+
