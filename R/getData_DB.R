@@ -3,25 +3,21 @@
 #' 
 #' @description
 #' getData: get the entire table or some rows from the table from a PostgreSQL database.
-#' writeTable: write the table into a PostgreSQL database.
+#' data2db: write the table into a PostgreSQL database.
 #' 
 #' @param id string. The id of the data to get from the table. When NULL, the entire table will be returned.
-#' @param tname string. The table name of the data.  A table name can contain numeric alphabets and underline (e.g. table_1 ). The table name  should begin with an alphabet. The 8 table names below are specified:
-#'                 * "edge": matrix data for network.
-#'                 * "node": dictionary of the nodes.
-#'                 * "synonyms": synonyms of CUI nodes.
-#'                 * "rollup": rollup for CUI nodes.
-#'                 * some other names can't be used: "details".
+#' @param tname string. The table name of the data.  A table name can contain numeric alphabets and underline (e.g. table_1 ). The table name  should begin with an alphabet. 
+#'              The 3 table names below are specified: "df_edges": data for network; "dict": dictionary of the nodes; "details".
 #' @param db string. The name of the database.
-#' @param field string. Default from. The field name of the id to get from the table.
+#' @param field string. Default "from". The field name of the id to get from the table.
 #' @param data data.frame. The data to write into the database.
 #' @param title string. Default NULL. Parameter for more data. The title for more information data.
 #' @param note string. Default "". Parameter for more data. The description for more information data.
 #' @return NULL
 #' @examples
 #' \dontrun{
-#' getData("PheCode:250", "node", "app_cuinetwork.db")
-#' data2db("edge", "test_data2db.db", "test_data2db.rds")
+#' getData("PheCode:250", "df_edges", "app_cuinetwork")
+#' data2db(df_edges, "df_edges", "app_cuinetwork")
 #' }
 #' @export
 getData <- function(id, tname, db, field = "from"){
@@ -56,8 +52,7 @@ data2db <- function(data, tname, db, title = NA, note = NA){
   writeTable(data, tname, db)
 }
 
-#' @rdname getData
-#' @export
+
 writeTable <- function(data, tname, db){
   on.exit(RPostgres::dbDisconnect(con(db)), add = TRUE)
   conn <- con(db)

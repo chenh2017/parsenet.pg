@@ -3,14 +3,11 @@
 \name{getData}
 \alias{getData}
 \alias{data2db}
-\alias{writeTable}
 \title{Get/write data from a PostgreSQL database}
 \usage{
 getData(id, tname, db, field = "from")
 
 data2db(data, tname, db, title = NA, note = NA)
-
-writeTable(data, tname, db)
 }
 \arguments{
 \item{id}{string. The id of the data to get from the table. When NULL, the entire table will be returned.}

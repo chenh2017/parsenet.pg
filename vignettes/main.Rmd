@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 
 # Required data
 
-## edge
+## df_edges
 
-A data.frame of "from-to-weight" or RDS file with matrix, sparse matrix(dgCMatrix-class) is acceptable for `edge` data.
+A data.frame of "from-to-weight".
 
 
 demo 1
@@ -32,44 +32,17 @@ demo 1
 - **to**: collected nodes.
 - **weight**: the weight of the collection. e.g. cosine similarity.
 
-demo 2
-
-|                | PheCode:008 | PheCode:008.51 | RXNORM:123 |
-| -----------    |:-----------:|:--------------:|:----------:|
-| **PheCode:008**    | 1           | 0.81           | 0.63       |
-| **PheCode:008.51** | 0.81        | 1              | 0.57       |
-| **RXNORM:123**     | 0.63        | 0.57           | 1          |
-
-## dict_cui
-
-Dictionary for cui nodes. demo:
-
-| id       | term            | semantic_type                 | group1 | group2     | category              |
-| -------- | --------------- | ----------------------------- | ------ | ---------- | --------------------- |
-| C0000167 | 17 Ketosteroids | Pharmacologic Substance       | CHEM   | Drug       | Chemicals & Drugs NLP |
-| C0002716 | amyloids        | Biologically Active Substance | CHEM   | Ignore_cui | Chemicals & Drugs NLP |
-
-- **id**: The unique key. (e.g. C0002716)
-- **term**: Description/Term/String of the ID. Only one term for ID. (e.g. amyloids)
-- **semantic_type**: semantic type. (e.g. Biologically Active Substance)
-- **group1**: e.g.  "PROC"   "CHEM"   "DISO"   "PHYS"   "PHEN"   "ACTI"
-- **group2**: e.g. "Ignore_cui" "Procedure"  "Disease"    "Drug"       "Lab"
-- **category**: User specified group name. e.g. 
-
-```
- [1]                            Procedure NLP             
- [3] Chemicals & Drugs NLP      Disease NLP               
- [5] Drug NLP                   Lab NLP                   
- [7] PHYS NLP                   Phenomena NLP             
- [9] Activities & Behaviors NLP 
+```{r eval=FALSE}
+parsenet.pg::data2db(data, "df_edges", db)
 ```
 
-## dict_codified
+## dict
 
-Dictionary for codified nodes. demo:
+Dictionary for nodes. demo:
 
 | id | term | semantic_type | group1 | group2 | category | level1 | level2 | level3 | level4 |
 | -------------- | -------------------- | ------------------- | -------------- | ------- | ---------------- | -------------------- | ------------------- | ----------------- | ------ |
+| C0000167 | 17 Ketosteroids | Pharmacologic Substance       | CHEM   | Drug       | Chemicals & Drugs NLP |Pharmacologic Substance | 17 Ketosteroids | 
 | PheCode:008    | intestinal infection | infectious diseases | PheCode        | Disease | Disease Codified | intestinal infection |                     |                   |        |
 | PheCode:008.5  | bacterial enteritis  | infectious diseases | PheCode        | Disease | Disease Codified | intestinal infection | bacterial enteritis |                   |        |
 | PheCode:008.51 | intestinal e.coli    | infectious diseases | PheCode        | Disease | Disease Codified | intestinal infection | bacterial enteritis | intestinal e.coli |        |
@@ -78,18 +51,26 @@ Dictionary for codified nodes. demo:
 | LOINC:10374-7   | helmet cells | Blood smear finding | LOINC        | Lab | Lab Codified | Hematology | Blood smear finding | Erythrocyte shape | helmet cells |
 
 - **id**: The unique key. (e.g. PheCode:008)
+- **type**: Different types will use nodes of different shapes in the network. e.g. NLP Codified.
 - **term**: Description/Term/String of the ID. (e.g. intestinal infection)
 - **semantic type**: semantic type/group. (e.g. infectious diseases)
-- **group1**: e.g. "CCS" "PheCode" "RxNorm" "Lab"
-- **group2**: e.g.  "Procedure"  "Disease"    "Drug"       "Lab"
-- **category**: e.g. "Procedure Codified"  "Disease Codified"    "Drug Codified"       "Lab Codified"
+- **group**: e.g. "Procedure_NLP" "CHEM"  "Disease_NLP" "Drug_NLP"  "Lab_NLP" "PHYS"  "PHEN" "ACTI"  "Other_cui" "Procedure_Codified""Lab_Codified" "Disease_Codified" "Drug_Codified".
+- **group1**: e.g. "CCS" "PheCode" "RxNorm" "Lab" for codified nodes; "PROC"   "CHEM"   "DISO"   "PHYS"   "PHEN"   "ACTI" for NLP nodes.
+- **group2**: e.g.  "Procedure" "Disease" "Drug" "Lab" "Ignore_cui" "Procedure"  "Disease"    "Drug"       "Lab" 
+- **category**: User specified group name. e.g. "Procedure Codified"  "Disease Codified"    "Drug Codified"       "Lab Codified"
 - **level1~4**:	The descriptions for hierarchical levels of `id` column. e.g. The hierarchy of PheCode:008.51:   
 	* level1 is the top level (intestinal infection: PheCode:008)
 	* level2 is the second level (bacterial enteritis: PheCode:008.5)
 	* level3 is the bottom level itself (intestinal e.coli: PheCode:008.51)
 	* level4 is NA
 
+```{r eval=FALSE}
+parsenet.pg::data2db(data, "dict", db)
+```
+
 # Optional data
+
+**Note: **All the key colnumn should be names as id. 
 
 ## synonyms
 
@@ -105,6 +86,10 @@ Dictionary for codified nodes. demo:
 
 - **id**: center nodes' ID. (e.g. C3205666)
 - **synonyms**: The synonyms.
+
+```{r eval=FALSE}
+parsenet.pg::data2db(data, "name of the data", db, title = "the title of the table", note = "description of the data")
+```
 
 ## rollup
 
