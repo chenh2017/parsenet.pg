@@ -17,7 +17,7 @@ You can install the development version from GitHub with:
 
 ``` r
 install.packages("remotes")
-remotes::install_github("celehs/parsenet.pg")
+remotes::install_github("chenh2017/parsenet.pg")
 ```
 
 ## Usage
@@ -70,5 +70,5 @@ run_app(db = "name of the database")
 ```
 
 See the [getting started
-guide](https://celehs.github.io/parsenet.pg/articles/main.html) to learn
-how to use parsenet.pg.
+guide](https://chenh2017.github.io/parsenet.pg/articles/main.html) to
+learn how to use parsenet.pg.
