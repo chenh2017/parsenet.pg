@@ -37,25 +37,25 @@ parsenet.pg::data2db(data, "df_edges", db)
 
 Dictionary for nodes. demo:
 
-| id             | type | label | term | semantic_type | group1 | group2 | category | level1 | level2 | level3 | level4 |
+| id             | type | label | term | semantic_type | group | group1 | group2 | category | level1 | level2 | level3 | level4 |
 | -------------- | ------ | ------ | -------------------- | ------------------- | -------------- | ------- | ---------------- | -------------------- | ------------------- | ----------------- | ------ |
-| C0000167       | NLP | 17 Ketosteroids | 17 Ketosteroids | Pharmacologic Substance       | CHEM   | Drug       | Chemicals & Drugs NLP |Pharmacologic Substance | 17 Ketosteroids | 
-| PheCode:008    | Codified | intestinal infection | intestinal infection | infectious diseases | PheCode        | Disease | Disease Codified | intestinal infection |                     |                   |        |
-| PheCode:008.5  | Codified | bacterial enteritis | bacterial enteritis  | infectious diseases | PheCode        | Disease | Disease Codified | intestinal infection | bacterial enteritis |                   |        |
-| PheCode:008.51 | Codified | intestinal e.coli | intestinal e.coli    | infectious diseases | PheCode        | Disease | Disease Codified | intestinal infection | bacterial enteritis | intestinal e.coli |        |
-| RXNORM:1000104 | Codified | incobotulinumtoxina | incobotulinumtoxina | hypoglycemic agents | RXNORM        | Drug | Drug Codified | glucagon-like peptide- | liraglutide | |        |
-| CCS:177        | Codified | computerized axial | computerized axial tomography ct scan head | Miscellaneous diagnostic and therapeutic procedures | CCS        | Procedure | Procedure Codified | miscellaneous diagnostic and therapeutic procedures | computerized axial tomography ct scan | computerized axial tomography ct scan head |        |
-| LOINC:10374-7  | Codified | helmet cells | helmet cells | Blood smear finding | LOINC        | Lab | Lab Codified | Hematology | Blood smear finding | Erythrocyte shape | helmet cells |
+| C0000167       | NLP | 17 Ketosteroids | 17 Ketosteroids | Pharmacologic Substance       | Drug_NLP | CHEM   | Drug       | Chemicals & Drugs NLP |Pharmacologic Substance | 17 Ketosteroids | 
+| PheCode:008    | Codified | intestinal infection | intestinal infection | infectious diseases | Disease_Codified | PheCode        | Disease | Disease Codified | intestinal infection |                     |                   |        |
+| PheCode:008.5  | Codified | bacterial enteritis | bacterial enteritis  | infectious diseases | Disease_Codified | PheCode        | Disease | Disease Codified | intestinal infection | bacterial enteritis |                   |        |
+| PheCode:008.51 | Codified | intestinal e.coli | intestinal e.coli    | infectious diseases | Disease_Codified | PheCode        | Disease | Disease Codified | intestinal infection | bacterial enteritis | intestinal e.coli |        |
+| RXNORM:1000104 | Codified | incobotulinumtoxina | incobotulinumtoxina | hypoglycemic agents | Drug_Codified | RXNORM        | Drug | Drug Codified | glucagon-like peptide- | liraglutide | |        |
+| CCS:177        | Codified | computerized axial tomography ct scan head | computerized axial tomography ct scan head | Miscellaneous diagnostic and therapeutic procedures | Procedure_Codified |  CCS        | Procedure | Procedure Codified | miscellaneous diagnostic and therapeutic procedures | computerized axial tomography ct scan | computerized axial tomography ct scan head |        |
+| LOINC:10374-7  | Codified | helmet cells | helmet cells | Blood smear finding | Lab_Codified | LOINC        | Lab | Lab Codified | Hematology | Blood smear finding | Erythrocyte shape | helmet cells |
 
 - **id**: The unique key. (e.g. PheCode:008)
-- **type**: Different types will use nodes of different shapes in the network. e.g. NLP Codified.
-- **label**: The string to be showed in the network.
+- **type**: Different types will use nodes of different shapes in the network. (e.g. NLP / Codified)
+- **label**: The string to be showed in the network. (e.g. intestinal infection)
 - **term**: Description/Term/String of the ID. (e.g. intestinal infection)
 - **semantic type**: semantic type/group. (e.g. infectious diseases)
-- **group**: e.g. "Procedure_NLP" "CHEM"  "Disease_NLP" "Drug_NLP"  "Lab_NLP" "PHYS"  "PHEN" "ACTI"  "Other_cui" "Procedure_Codified""Lab_Codified" "Disease_Codified" "Drug_Codified".
-- **group1**: e.g. "CCS" "PheCode" "RxNorm" "Lab" for codified nodes; "PROC"   "CHEM"   "DISO"   "PHYS"   "PHEN"   "ACTI" for NLP nodes.
-- **group2**: e.g.  "Procedure" "Disease" "Drug" "Lab" "Ignore_cui" "Procedure"  "Disease"    "Drug"       "Lab" 
-- **category**: User specified group name. e.g. "Procedure Codified"  "Disease Codified"    "Drug Codified"       "Lab Codified"
+- **group**: (e.g. "Procedure_NLP" "CHEM"  "Disease_NLP" "Drug_NLP"  "Lab_NLP" "PHYS"  "PHEN" "ACTI"  "Other_cui" for NLP nodes; "Procedure_Codified""Lab_Codified" "Disease_Codified" "Drug_Codified" for codified nodes)
+- **group1**: (e.g. "CCS" "PheCode" "RXNORM" "Lab" for codified nodes; "PROC"   "CHEM"   "DISO"   "PHYS"   "PHEN"   "ACTI" for NLP nodes)
+- **group2**: (e.g.  "Procedure" "Disease" "Drug" "Lab" "Ignore_cui")
+- **category**: User specified group name. (e.g. "Procedure Codified"  "Disease Codified"    "Drug Codified"       "Lab Codified")
 - **level1~4**:	The descriptions for hierarchical levels of `id` column. e.g. The hierarchy of PheCode:008.51:   
 	* level1 is the top level (intestinal infection: PheCode:008)
 	* level2 is the second level (bacterial enteritis: PheCode:008.5)
