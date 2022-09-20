@@ -83,8 +83,7 @@
 <div id="df_edges" class="section level2">
 <h2 class="hasAnchor">
 <a href="#df_edges" class="anchor"></a>df_edges</h2>
-<p>A data.frame of “from-to-weight”.</p>
-<p>demo 1</p>
+<p>A data.frame of “from-to-weight”. demo:</p>
 <table class="table">
 <thead><tr class="header">
 <th>from</th>
@@ -121,19 +120,23 @@
 <p>Dictionary for nodes. demo:</p>
 <table class="table">
 <colgroup>
-<col width="9%">
-<col width="13%">
-<col width="12%">
-<col width="9%">
-<col width="4%">
-<col width="10%">
-<col width="13%">
+<col width="8%">
+<col width="3%">
+<col width="3%">
 <col width="12%">
 <col width="11%">
+<col width="8%">
+<col width="4%">
+<col width="9%">
+<col width="12%">
+<col width="11%">
+<col width="10%">
 <col width="3%">
 </colgroup>
 <thead><tr class="header">
 <th>id</th>
+<th>type</th>
+<th>label</th>
 <th>term</th>
 <th>semantic_type</th>
 <th>group1</th>
@@ -147,6 +150,8 @@
 <tbody>
 <tr class="odd">
 <td>C0000167</td>
+<td>NLP</td>
+<td>17 Ketosteroids</td>
 <td>17 Ketosteroids</td>
 <td>Pharmacologic Substance</td>
 <td>CHEM</td>
@@ -159,6 +164,8 @@
 </tr>
 <tr class="even">
 <td>PheCode:008</td>
+<td>Codified</td>
+<td>intestinal infection</td>
 <td>intestinal infection</td>
 <td>infectious diseases</td>
 <td>PheCode</td>
@@ -171,6 +178,8 @@
 </tr>
 <tr class="odd">
 <td>PheCode:008.5</td>
+<td>Codified</td>
+<td>bacterial enteritis</td>
 <td>bacterial enteritis</td>
 <td>infectious diseases</td>
 <td>PheCode</td>
@@ -183,6 +192,8 @@
 </tr>
 <tr class="even">
 <td>PheCode:008.51</td>
+<td>Codified</td>
+<td>intestinal e.coli</td>
 <td>intestinal e.coli</td>
 <td>infectious diseases</td>
 <td>PheCode</td>
@@ -195,6 +206,8 @@
 </tr>
 <tr class="odd">
 <td>RXNORM:1000104</td>
+<td>Codified</td>
+<td>incobotulinumtoxina</td>
 <td>incobotulinumtoxina</td>
 <td>hypoglycemic agents</td>
 <td>RXNORM</td>
@@ -207,6 +220,8 @@
 </tr>
 <tr class="even">
 <td>CCS:177</td>
+<td>Codified</td>
+<td>computerized axial</td>
 <td>computerized axial tomography ct scan head</td>
 <td>Miscellaneous diagnostic and therapeutic procedures</td>
 <td>CCS</td>
@@ -219,6 +234,8 @@
 </tr>
 <tr class="odd">
 <td>LOINC:10374-7</td>
+<td>Codified</td>
+<td>helmet cells</td>
 <td>helmet cells</td>
 <td>Blood smear finding</td>
 <td>LOINC</td>
@@ -236,6 +253,8 @@
 <strong>id</strong>: The unique key. (e.g. PheCode:008)</li>
 <li>
 <strong>type</strong>: Different types will use nodes of different shapes in the network. e.g. NLP Codified.</li>
+<li>
+<strong>label</strong>: The string to be showed in the network.</li>
 <li>
 <strong>term</strong>: Description/Term/String of the ID. (e.g. intestinal infection)</li>
 <li>
