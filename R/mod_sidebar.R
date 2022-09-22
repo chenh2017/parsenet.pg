@@ -100,6 +100,13 @@ sidebarServer <- function(id, tb_input, tname, db, type = 1, selected = c(1, 3),
       }
       df <- readDB(sql, tname, db)
       df <- df[!duplicated(df$id), ]
+      
+      df$order <- 1
+      df$order[tolower(df$term) == text] <- 0
+      if("synonyms" %in% colnames(df)){
+        df$order[tolower(df$synonyms) == text] <- 0
+      }
+      df[order(df$order, df$id), 1:(ncol(df)-1)]
     }
     
     tb_input2 <- reactive({
