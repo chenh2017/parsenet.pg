@@ -300,26 +300,36 @@ app_server <- function(db){
     
     ## ui details  ===================================================
     output$ui_details <- renderUI({
+      if(selected_id() %in% phecode$Phecode){
+        phe_id <- gsub(".+:", "", selected_id(), perl = TRUE)
+        href <- paste0("https://hmsrsc.aws.hms.harvard.edu/content/89/?phecode=", phe_id)
+        tags$a(span(icon("hand-point-right"), "Phecode map to ICD"), 
+               href = href, target = "_blank", style = "color: darkblue")
+
+      } else {
       outdiv <- tagList()
       tbs <- getData(NULL, "details", db)
       # tbs <- rbind(tbs, data.frame(tname = "synonyms", title = "Synonyms", note = "Synonyms"))
       print(tbs)
       sy <- "synonyms" %in% tbs$tname
       print(sy)
-      apply(tbs, 1, function(x){
-        tname = x[1]
-        title = x[2]
-        helps = ifelse(!is.null(x) & length(x) == 3, x[3], "")
-        print(tname)
-        df <- getData(selected_id(), tname, db, field = "id")
-        if(nrow(df) > 0){
-          outdiv <<- detailsTab(tname, df[df$id == selected_id(),], title, outdiv, selected_id(), output, sy, helps)
+      
+        apply(tbs, 1, function(x){
+          tname = x[1]
+          title = x[2]
+          helps = ifelse(!is.null(x) & length(x) == 3, x[3], "")
+          print(tname)
+          df <- getData(selected_id(), tname, db, field = "id")
+          print(head(df))
+          if(nrow(df) > 0){
+            outdiv <<- detailsTab(tname, df[df$id == selected_id(),], title, outdiv, selected_id(), output, sy, helps)
+          }
+        })
+        if (length(outdiv) > 0){
+          outdiv
+        } else {
+          h4("No more details.")
         }
-      })
-      if (length(outdiv) > 0){
-        outdiv
-      } else {
-        h4("No more details.")
       }
       
     })

@@ -12,16 +12,12 @@ data2db(data, tname, db, title = NA, note = NA)
 \arguments{
 \item{id}{string. The id of the data to get from the table. When NULL, the entire table will be returned.}
 
-\item{tname}{string. The table name of the data.  A table name can contain numeric alphabets and underline (e.g. table_1 ). The table name  should begin with an alphabet. The 8 table names below are specified:
-* "edge": matrix data for network.
-* "node": dictionary of the nodes.
-* "synonyms": synonyms of CUI nodes.
-* "rollup": rollup for CUI nodes.
-* some other names can't be used: "details".}
+\item{tname}{string. The table name of the data.  A table name can contain numeric alphabets and underline (e.g. table_1 ). The table name  should begin with an alphabet. 
+The 3 table names below are specified: "df_edges": data for network; "dict": dictionary of the nodes; "details".}
 
 \item{db}{string. The name of the database.}
 
-\item{field}{string. Default from. The field name of the id to get from the table.}
+\item{field}{string. Default "from". The field name of the id to get from the table.}
 
 \item{data}{data.frame. The data to write into the database.}
 
@@ -31,11 +27,11 @@ data2db(data, tname, db, title = NA, note = NA)
 }
 \description{
 getData: get the entire table or some rows from the table from a PostgreSQL database.
-writeTable: write the table into a PostgreSQL database.
+data2db: write the table into a PostgreSQL database.
 }
 \examples{
 \dontrun{
-getData("PheCode:250", "node", "app_cuinetwork.db")
-data2db("edge", "test_data2db.db", "test_data2db.rds")
+getData("PheCode:250", "df_edges", "app_cuinetwork")
+data2db(df_edges, "df_edges", "app_cuinetwork")
 }
 }
