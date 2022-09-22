@@ -60,7 +60,7 @@ circularBar <- function(df_edges, dict.combine, ColorsCirc){
   
       nodes = df_edges$to
       data = data.frame(
-        "individual"=dict.combine$term[match(nodes,dict.combine$id)],
+        "individual"=paste0(dict.combine$term, " (",dict.combine$id, ")")[match(nodes,dict.combine$id)],
         "group"=dict.combine$group1[match(nodes,dict.combine$id)],
         "type" = dict.combine$type[match(nodes,dict.combine$id)],
         "value"=df_edges$weight

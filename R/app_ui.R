@@ -62,7 +62,7 @@ app_ui <- function(request) {
                            br(),
                            uiOutput("circularplot") %>%
                              shinyhelper::helper(type = "markdown",
-                                                 colour = "blue",
+                                                 # colour = "blue",
                                                  title = "Note",
                                                  content = "helper_circularplot",
                                                  size = "m",
