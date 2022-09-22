@@ -60,7 +60,13 @@ app_ui <- function(request) {
                   ),
                   tabPanel(title = "Circular plot",
                            br(),
-                           uiOutput("circularplot")
+                           uiOutput("circularplot") %>%
+                             shinyhelper::helper(type = "markdown",
+                                                 colour = "blue",
+                                                 title = "Note",
+                                                 content = "helper_circularplot",
+                                                 size = "m",
+                                                 style = "margin-right: 5px;")
                   ),
                   tabPanel(title = "More details",
                            br(),

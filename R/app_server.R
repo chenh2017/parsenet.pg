@@ -11,7 +11,7 @@
 #' 
 app_server <- function(db){
   server <- function(input, output, session) {
-    shinyhelper::observe_helpers()
+    shinyhelper::observe_helpers(help_dir = app_sys("app/doc/"))
     
     ## data  ===================
     dict.combine <- getData(NULL, "dict", db)
