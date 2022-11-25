@@ -175,14 +175,19 @@ app_server <- function(db){
     
     # node info ====
     observeEvent(input$current_node_id, {
-      if (!is.null(selected_id())){
+      if (!is.null(df_selected())){
         toggleModal(session, "selectednode", toggle = "open")
-        df <- getData(selected_id(), "df_edges", db)
+        df <- df_selected()
+        # df <- getData(selected_id(), "df_edges", db)
+        # df$category <- dict.combine$category[match(df$to, dict.combine$id)]
+        # print(head(df))
+        # print(unique(df$category))
+        # df <- df[df$category %in% input[[paste0(name_input(), "-filter_category")]], ]
         v_cos = df$weight
         print("openBS_nodeinfo")
         print(length(v_cos))
         t_cos = sort(v_cos, decreasing = TRUE)[min(length(v_cos), 100)]
-        ifelse(is.na(t_cos), min(v_cos), t_cos)
+        t_cos = ifelse(is.na(t_cos), min(v_cos), t_cos)
         updateSliderInput(
           inputId = "cutoff_ind",
           # label = "Filter edges by cosine similarity (above):",
@@ -202,10 +207,19 @@ app_server <- function(db){
     })
   
     ## df plots  ===================================
-    df_plots <- reactive({
-      print("df_plots")
+    df_selected <- reactive({
       if (!is.null(selected_id())){
         df <- getData(selected_id(), "df_edges", db)
+        df$category <- dict.combine$category[match(df$to, dict.combine$id)]
+        df[df$category %in% input[[paste0(name_input(), "-filter_category")]], ]
+      }
+    })
+    
+    df_plots <- reactive({
+      print("df_plots")
+      if (!is.null(df_selected())){
+        # df <- getData(selected_id(), "df_edges", db)
+        df <- df_selected()
         df[df$weight >= input$cutoff_ind[1],]
         # df_edges[df_edges$from == selected_id() | df_edges$to == selected_id(), ]
       }
@@ -260,7 +274,7 @@ app_server <- function(db){
     })
     
     df_clicked_node <- reactive({
-      df <- df_plots()
+      df <- df_plots()[, c("from", "to", "weight")]
       colnames(df) <- c("center_nodes", "connected_nodes", "cosine_similarity")
       df <- left_join(df,
                       dict.combine[, c("id", "term", "category")],
