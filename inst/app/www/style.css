@@ -70,6 +70,9 @@ button#goButton {
 
 
 
+#ui_filter > .form-group > .dropdown > .dropdown-menu > .inner > ul > li > a > span {
+  color: black;
+}
 
 
 /* network */

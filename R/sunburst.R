@@ -105,18 +105,20 @@ sunburstPreData <- function(df, changeline){
 sunburstPlotly <- function(node_now, df_edges, dict.combine){
   
   node_name = dict.combine$term[match(node_now,dict.combine$id)]
-  nodes = c(df_edges$from, df_edges$to)
-  print(nrow(df_edges))
-  print(length(nodes))
-  rhd = dict.combine[match(nodes,dict.combine$id), 
+  rhd = dict.combine[match(df_edges$to, dict.combine$id), 
                      c("id","group1","group2","group","level1","level2","level3","level4")]
-  rhd$x = c(df_edges$weight, df_edges$weight)
-  rhd <- rhd[!duplicated(rhd),]
+  rhd$x = df_edges$weight
   
   if(nrow(rhd)>0){
     rhd = rhd[order(rhd$group2,rhd$group,rhd$level1,rhd$level2,
                     rhd$level3,rhd$level4,rhd$x),]
-    DF = rhd[,-c(1,2)]
+    DF = rhd
+    DF$level4[!is.na(DF$level4)] <- paste0(DF$id[!is.na(DF$level4)], "|", DF$level4[!is.na(DF$level4)])
+    DF$level3[is.na(DF$level4) & !is.na(DF$level3)] <- paste0(DF$id[is.na(DF$level4) & !is.na(DF$level3)], "|", DF$level3[is.na(DF$level4) & !is.na(DF$level3)])
+    DF$level3[is.na(DF$level3) & !is.na(DF$level2)] <- paste0(DF$id[is.na(DF$level3) & !is.na(DF$level2)], "|", DF$level2[is.na(DF$level3) & !is.na(DF$level2)])
+    DF$level3[is.na(DF$level2) & !is.na(DF$level1)] <- paste0(DF$id[is.na(DF$level2) & !is.na(DF$level1)], "|", DF$level1[is.na(DF$level2) & !is.na(DF$level1)])
+    DF = DF[,-c(1,2)]
+    DF = DF[, apply(DF, 2, function(x) sum(is.na(x))) == 0]
     if(length(unique(DF$group2)) == length(unique(DF$group))){
       DF$group = NULL
     }
@@ -128,10 +130,20 @@ sunburstPlotly <- function(node_now, df_edges, dict.combine){
       l = 0,r = 0,b = 0,t = 0,pad = 0
     )
     
-    plotly::plot_ly(data = df, ids = ~ids, labels= ~labels, parents = ~parents, 
-            text = ~text, values= ~values, type='sunburst', branchvalues = 'total',
+    df$term <- gsub("^.+\\|", "", df$text, perl = TRUE)
+    df$id <- ifelse(grepl("|", df$text, fixed = TRUE), gsub("\\|.+$", "", df$text, perl = TRUE), NA)
+    df$cos <- round(df_edges$weight[match(df$id, df_edges$to)], 3)
+    df$text <- gsub("<br>", "", df$term)
+    df$text <- ifelse(is.na(df$id) | is.na(df$cos), 
+                      df$ids,
+                      paste0(df$text, "<br>ID: ", df$id, "<br>cos: ", df$cos))
+    
+    
+    plotly::plot_ly(data = df, ids = ~ids, labels= ~text, parents = ~parents, 
+            text = ~term, # values= ~values, 
+            type='sunburst', branchvalues = 'total',
             hoverinfo = "label", textinfo = "text", textfont = list(color="black"),
-            height =  750)%>%
+            height =  750) %>%
       plotly::layout(autosize = F, margin = m)
 
   }

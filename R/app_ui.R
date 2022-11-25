@@ -54,11 +54,11 @@ app_ui <- function(request) {
                            # tbClickedUI("tb1")
                            uiOutput("clicked_node_table")
                   ),
-                  tabPanel(title = "Sunburst plot",
+                  tabPanel(title = "Hierarchy of connected nodes",
                            br(),
                            div(uiOutput("ui_sun"),align="center")
                   ),
-                  tabPanel(title = "Circular plot",
+                  tabPanel(title = "Cos of connected nodes",
                            br(),
                            uiOutput("circularplot") %>%
                              shinyhelper::helper(type = "markdown",

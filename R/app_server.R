@@ -309,6 +309,7 @@ app_server <- function(db){
       } else {
       outdiv <- tagList()
       tbs <- getData(NULL, "details", db)
+      if(!is.null(tbs)) {
       # tbs <- rbind(tbs, data.frame(tname = "synonyms", title = "Synonyms", note = "Synonyms"))
       print(tbs)
       sy <- "synonyms" %in% tbs$tname
@@ -329,7 +330,10 @@ app_server <- function(db){
           outdiv
         } else {
           h4("No more details.")
+        } } else {
+          h4("No more details.")
         }
+      
       }
       
     })
