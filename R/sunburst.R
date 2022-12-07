@@ -118,7 +118,7 @@ sunburstPlotly <- function(node_now, df_edges, dict.combine){
     DF$level3[is.na(DF$level3) & !is.na(DF$level2)] <- paste0(DF$id[is.na(DF$level3) & !is.na(DF$level2)], "|", DF$level2[is.na(DF$level3) & !is.na(DF$level2)])
     DF$level3[is.na(DF$level2) & !is.na(DF$level1)] <- paste0(DF$id[is.na(DF$level2) & !is.na(DF$level1)], "|", DF$level1[is.na(DF$level2) & !is.na(DF$level1)])
     DF = DF[,-c(1,2)]
-    DF = DF[, apply(DF, 2, function(x) sum(is.na(x))) == 0]
+    DF = DF[, apply(DF, 2, function(x) sum(!is.na(x))) != 0]
     if(length(unique(DF$group2)) == length(unique(DF$group))){
       DF$group = NULL
     }
