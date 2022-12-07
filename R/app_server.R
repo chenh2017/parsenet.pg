@@ -47,6 +47,7 @@ app_server <- function(db){
       paste(gsub("[^\\w]", "_", center_nodes(), perl = TRUE), collapse = "_")
     })
     
+    # ui filter ====
     observeEvent(center_nodes(), {
       top_n <- 500
       max_nodes <- min(length(center_nodes()) * top_n, nrow(df_edges_center()))
@@ -56,6 +57,17 @@ app_server <- function(db){
       
       df <- df_edges_center()[df_edges_center()$weight >= thr_cos, ]
       categories <- sort(unique(df$category))
+      
+      df_categories <- data.frame(cat1 = dict.combine$type[match(categories, dict.combine$category)],
+                                  cat2 = categories)
+      
+      print(df_categories)
+      
+      if(length(unique(df_categories$cat1)) > 1){
+        categories <- lapply(split(df_categories$cat2, df_categories$cat1), as.list)
+      }
+      
+      print(categories)
       
       # if(input$controlbarMenu == "Network"){
       #   updateControlbarMenu(session = session, id = "controlbarMenu", selected = "Filter Nodes")
@@ -77,13 +89,11 @@ app_server <- function(db){
             step = 0.01,
             width = "100%"
           ),
-          shinyWidgets::pickerInput(
+          shinyWidgets::virtualSelectInput(
             inputId = paste0(name_input(), "-filter_category"),
             label = "Filter nodes by category:",
             choices = categories,
-            selected = categories,
-            options = list(
-              `actions-box` = TRUE),
+            selected = as.vector(unlist(categories)),
             multiple = TRUE,
             width = "100%"
           )
@@ -95,18 +105,21 @@ app_server <- function(db){
       req(input[[paste0(name_input(), "-filter_cos")]])
       thr_cos <- input[[paste0(name_input(), "-filter_cos")]]
       df <- df_edges_center()[df_edges_center()$weight >= thr_cos, ]
-      sort(unique(df$category))
+      cats <- sort(unique(df$category))
+      types <- dict.combine$type[match(cats, dict.combine$category)]
+      if(length(unique(types)) > 1){
+        cats <- lapply(split(cats, types), as.list)
+      }
+      cats
     })
     
     observeEvent(categories(), {
-      shinyWidgets::updatePickerInput(
+      shinyWidgets::updateVirtualSelect(
         session = session,
         inputId = paste0(name_input(), "-filter_category"),
         label = "Filter nodes by category:",
         choices = categories(),
-        selected = categories(),
-        options = list(
-          `actions-box` = TRUE)
+        selected = as.vector(unlist(categories()))
       )
     })
     
@@ -335,7 +348,7 @@ app_server <- function(db){
           helps = ifelse(!is.null(x) & length(x) == 3, x[3], "")
           print(tname)
           df <- getData(selected_id(), tname, db, field = "id")
-          print(head(df))
+          # print(head(df))
           if(nrow(df) > 0){
             outdiv <<- detailsTab(tname, df[df$id == selected_id(),], title, outdiv, selected_id(), output, sy, helps)
           }
