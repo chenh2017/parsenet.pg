@@ -95,6 +95,7 @@ app_server <- function(db){
             choices = categories,
             selected = as.vector(unlist(categories)),
             multiple = TRUE,
+            optionsCount = 20,
             width = "100%"
           )
         )
