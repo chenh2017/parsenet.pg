@@ -294,7 +294,13 @@ app_server <- function(db){
                       dict.combine[, c("id", "term", "category")],
                       by = c("connected_nodes" = "id"))
       df$cosine_similarity <- round(df$cosine_similarity, 3)
-      df[order(df$cosine_similarity, decreasing = TRUE), c(1, 2, 5, 4, 3)]
+      df <- df[order(df$cosine_similarity, decreasing = TRUE), c(1, 2, 5, 4, 3)]
+      if("count" %in% colnames(dict.combine)){
+        df$Count = dict.combine$count[match(df$connected_nodes, dict.combine$id)]
+      } else {
+        df$Count = NA
+      }
+      df
     })
     
     
@@ -316,7 +322,8 @@ app_server <- function(db){
                                  )
                                }
                              ),
-                             term = reactable::colDef(show = FALSE)
+                             term = reactable::colDef(show = FALSE),
+                             Count = reactable::colDef(show = ifelse("count" %in% colnames(dict.combine), TRUE, FALSE))
                            ),
                            bordered = TRUE,
                            defaultExpanded = TRUE,
