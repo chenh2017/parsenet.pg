@@ -151,8 +151,8 @@ dataNetwork <- function(center_nodes, df_edges, dict.combine, attrs,
   if("count" %in% colnames(dict.combine)){
     df_nodes$value <- log10(dict.combine$count[match(df_nodes$id, dict.combine$id)])
     df_nodes$title = paste0(df_nodes$title, "<br><b>Count: </b>", dict.combine$count[match(df_nodes$id, dict.combine$id)])
-    df_nodes$title[is.na(df_nodes$value)] = paste0(df_nodes$title[is.na(df_nodes$value)], "<br><b>Count: </b>NA (Median: ", round(median(dict.combine$count, na.rm = TRUE), 0), ")")
-    df_nodes$value[is.na(df_nodes$value)] <- log10(round(median(dict.combine$count, na.rm = TRUE), 0))
+    df_nodes$title[is.na(df_nodes$value)] = paste0(df_nodes$title[is.na(df_nodes$value)], "<br><b>Count: </b>NA (Median: ", round(stats::median(dict.combine$count, na.rm = TRUE), 0), ")")
+    df_nodes$value[is.na(df_nodes$value)] <- log10(round(stats::median(dict.combine$count, na.rm = TRUE), 0))
   }
   
   

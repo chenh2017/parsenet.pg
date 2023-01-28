@@ -3,11 +3,14 @@
 \name{getData}
 \alias{getData}
 \alias{data2db}
+\alias{buildIndex}
 \title{Get/write data from a PostgreSQL database}
 \usage{
 getData(id, tname, db, field = "from")
 
 data2db(data, tname, db, title = NA, note = NA)
+
+buildIndex(field, tname, db)
 }
 \arguments{
 \item{id}{string. The id of the data to get from the table. When NULL, the entire table will be returned.}
@@ -26,8 +29,11 @@ The 3 table names below are specified: "df_edges": data for network; "dict": dic
 \item{note}{string. Default "". Parameter for more data. The description for more information data.}
 }
 \description{
-getData: get the entire table or some rows from the table from a PostgreSQL database.
-data2db: write the table into a PostgreSQL database.
+getData: get the entire table or some rows from the table from a PostgreSQL database. 
+
+data2db: write the table into a PostgreSQL database. 
+
+buildIndex: build index for a table
 }
 \examples{
 \dontrun{

@@ -2,8 +2,11 @@
 #' Get/write data from a PostgreSQL database
 #' 
 #' @description
-#' getData: get the entire table or some rows from the table from a PostgreSQL database.
-#' data2db: write the table into a PostgreSQL database.
+#' getData: get the entire table or some rows from the table from a PostgreSQL database. 
+#' 
+#' data2db: write the table into a PostgreSQL database. 
+#' 
+#' buildIndex: build index for a table
 #' 
 #' @param id string. The id of the data to get from the table. When NULL, the entire table will be returned.
 #' @param tname string. The table name of the data.  A table name can contain numeric alphabets and underline (e.g. table_1 ). The table name  should begin with an alphabet. 
@@ -50,6 +53,20 @@ data2db <- function(data, tname, db, title = NA, note = NA){
     writeTable(details, "details", db)
   }
   writeTable(data, tname, db)
+}
+
+#' @rdname getData
+#' @export
+buildIndex <- function(field, tname, db){
+  on.exit(RPostgres::dbDisconnect(con(db)), add = TRUE)
+  sql = paste0("create index ", tname, "_", field, "_idx on \"", tname, "\" (\"", field, "\");")
+  conn <- con(db)
+  if(tname %in% RPostgres::dbListTables(conn)){
+    RPostgres::dbSendQuery(conn = conn, sql)
+  } else {
+    print(paste0(tname, " is't in the database!"))
+    NULL
+  }
 }
 
 
